@@ -11,5 +11,5 @@ class Product(Base):
 
     # Define columns for the Product table
     id = Column(Integer, primary_key=True)  # Unique identifier for each product
-    name = Column(String, nullable=False, unique=True)  # Name of the product, cannot be null and must be unique
-    stock = Column(Integer, default=0)  # Stock quantity of the product, defaults to 0 if not provided
+    name = Column(String, nullable=False, unique=True)  # Name of the product
+    stock = Column(Integer, default=0)  # Stock, defaults to 0 if not provided
