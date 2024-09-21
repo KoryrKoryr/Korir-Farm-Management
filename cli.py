@@ -9,6 +9,7 @@ from models.order import Order
 def cli():
     pass
 
+#Welcome Message and then run CLI group
 @click.command()
 def welcome():
     click.echo("*********************************")
@@ -17,7 +18,8 @@ def welcome():
     click.echo("Manage your farm products, orders and customers.")
     click.echo("*********************************\n")
 
-    cli()
+    cli() # Invokes CLI group command
 
+#Main entry point
 if __name__ == '__main__':
     welcome()
