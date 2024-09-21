@@ -31,7 +31,7 @@ def product_management():
         click.echo("4. Update Product Stock")
         click.echo("5. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice (1-5): ", type=int)
+        choice = click.prompt("Enter your choice (1-5) ", type=int)
 
         if choice == 1:
             name = click.prompt("Enter product name")
@@ -68,7 +68,7 @@ def customer_management():
         click.echo("3. Display All Customers")
         click.echo("4. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice (1-4): ", type=int)
+        choice = click.prompt("Enter your choice (1-4) ", type=int)
 
         if choice == 1:
             name = click.prompt("Enter customer name")
@@ -99,7 +99,7 @@ def order_management():
         click.echo("4. Display Orders by Customer")
         click.echo("5. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice", type=int)
+        choice = click.prompt("Enter your choice (1-5)", type=int)
 
         if choice == 1:
             customer_id = click.prompt("Enter customer ID", type=int)
@@ -127,7 +127,7 @@ def order_management():
             orders = Order.get_by_customer(customer_id)
             for order in orders:
                 click.echo(f"order ID: {order.id}, Product: {order.product.name}, Quantity: {order.quantity}")
-        elif choice == 4:
+        elif choice == 5:
             break
 
 #Main entry point

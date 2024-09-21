@@ -8,6 +8,9 @@ from database import Base, session
 # Import the Product class from the models module
 from models.product import Product
 
+#Import the Customer class from the models module
+from models.customer import Customer
+
 # Define a new class Order that inherits from Base
 class Order(Base):
     # Define the table name
@@ -26,6 +29,12 @@ class Order(Base):
     # Create new farm product order
     @classmethod
     def create(cls, product_id, customer_id, quantity):
+        # Check if the customer exists in the database
+        customer = session.query(Customer).get(customer_id)
+        if not customer:
+            raise ValueError(f"Customer with id {customer_id} not found!")        
+
+        
         order = cls(product_id=product_id, customer_id=customer_id, quantity=quantity)
         session.add(order)
 
@@ -49,11 +58,18 @@ class Order(Base):
         return session.query(cls).filter_by(customer_id=customer_id).all()
     
     # Delete an order with given order_id from the database
-@classmethod
-def delete(cls, order_id):
-    order = session.query(cls).get(order_id)
-    if order:
-        session.delete(order)
-        session.commit()
-    else:
-        raise ValueError(f"Order with id {order_id} not found!")
+    @classmethod
+    def delete(cls, order_id):
+        order = session.query(cls).get(order_id)
+        if order:
+            # Update the stock of the ordered product
+            product = session.query(Product).get(order.product_id)
+            if product:
+                product.stock += order.quantity
+            else:
+                raise ValueError(f"Product with id {order.product_id} not found!")    
+                    
+            session.delete(order)
+            session.commit()
+        else:
+            raise ValueError(f"Order with id {order_id} not found!")
