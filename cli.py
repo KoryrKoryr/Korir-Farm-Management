@@ -20,7 +20,7 @@ def cli(ctx):
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
 
-#Product Commands
+# Product Commands
 @cli.command()
 def product_management():
     while True:
@@ -51,11 +51,42 @@ def product_management():
             for product in products:
                 click.echo(f"ID: {product.id}, Name: {product.name}, Stock: {product.stock}")
         elif choice == 4:
-            product_id = click.prompt("Enter product ID to update:", type=int)
-            quantity = click.prompt("Enter quantity to add to stock:", type=int)
+            product_id = click.prompt("Enter product ID to update", type=int)
+            quantity = click.prompt("Enter quantity to add to stock", type=int)
             Product.update_stock(product_id, quantity)
             click.echo(f"Stock updated for product with ID {product_id}!")
         elif choice == 5:
+            break
+
+# Customer commands
+@cli.command()
+def customer_management():
+    while True:
+        click.echo("\nCustomer Management Menu:")
+        click.echo("1. Add a New Customer")
+        click.echo("2. Delete Existing Customer")
+        click.echo("3. Display All Customers")
+        click.echo("4. Back to Main Menu")
+
+        choice = click.prompt("Enter your choice (1-4): ", type=int)
+
+        if choice == 1:
+            name = click.prompt("Enter customer name")
+            Customer.create(name)
+            click.echo(f"Customer {name} created successfully!")
+        elif choice == 2:
+            customer_id = click.prompt("Enter customer ID to delete", type=int)
+            try:
+                Customer.delete(customer_id)
+                click.echo(f"Customer with ID {customer_id} deleted successfully!")
+            except ValueError as e:
+                click.echo(f"Error: {e}")
+        elif choice == 3:
+            customers = Customer.get_all()
+            click.echo("\nAll Customers:")
+            for customer in customers:
+                click.echo(f"ID: {customer.id}, Name: {customer.name}")
+        elif choice == 4:
             break
 
 #Main entry point
