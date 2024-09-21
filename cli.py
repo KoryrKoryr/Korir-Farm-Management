@@ -58,7 +58,7 @@ def product_management():
         elif choice == 5:
             break
 
-# Customer Management commands
+# Customer Management Commands
 @cli.command()
 def customer_management():
     while True:
@@ -88,8 +88,47 @@ def customer_management():
                 click.echo(f"ID: {customer.id}, Name: {customer.name}")
         elif choice == 4:
             break
-
 # Order Management Commands
+@cli.command()
+def order_management():
+    while True:
+        click.echo("\nOrder Management Menu:")
+        click.echo("1. Place New Order")
+        click.echo("2. Cancel Existing Order")
+        click.echo("3. Display All Orders")
+        click.echo("4. Display Orders by Customer")
+        click.echo("5. Back to Main Menu")
+
+        choice = click.prompt("Enter your choice", type=int)
+
+        if choice == 1:
+            customer_id = click.prompt("Enter customer ID", type=int)
+            product_id = click.prompt("Enter product ID", type=int)
+            quantity = click.prompt("Enter quantity", type=int)
+            try:
+                Order.create(product_id, customer_id, quantity)
+                click.echo(f"Order placed successfully for product ID {product_id}!")
+            except ValueError as e:
+                click.echo(f"Error: {e}")
+        elif choice == 2:
+            order_id = click.prompt("Enter order ID to cancel", type=int)
+            try:
+                Order.delete(order_id)
+                click.echo(f"Order with ID {order_id} cancelled successfully!")
+            except ValueError as e:
+                click.echo(f"Error: {e}")
+        elif choice == 3:
+            orders = Order.get_all()
+            click.echo("\nAll Orders:")
+            for order in orders:
+                click.echo(f"ID: {order.id}, Product ID: {order.product_id}, Customer ID: {order.customer_id}, Quantity: {order.quantity}")
+        elif choice == 4:
+            customer_id = click.prompt("Enter customer ID", type=int)
+            orders = Order.get_by_customer(customer_id)
+            for order in orders:
+                click.echo(f"order ID: {order.id}, Product: {order.product.name}, Quantity: {order.quantity}")
+        elif choice == 4:
+            break
 
 #Main entry point
 if __name__ == '__main__':
