@@ -20,7 +20,7 @@ def cli(ctx):
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
 
-# Product Commands
+# Product Management Commands
 @cli.command()
 def product_management():
     while True:
@@ -58,7 +58,7 @@ def product_management():
         elif choice == 5:
             break
 
-# Customer commands
+# Customer Management commands
 @cli.command()
 def customer_management():
     while True:
@@ -88,6 +88,8 @@ def customer_management():
                 click.echo(f"ID: {customer.id}, Name: {customer.name}")
         elif choice == 4:
             break
+
+# Order Management Commands
 
 #Main entry point
 if __name__ == '__main__':

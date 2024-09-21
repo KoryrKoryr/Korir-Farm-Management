@@ -47,3 +47,13 @@ class Order(Base):
     @classmethod
     def get_by_customer(cls, customer_id):
         return session.query(cls).filter_by(customer_id=customer_id).all()
+    
+    # Delete an order with given order_id from the database
+@classmethod
+def delete(cls, order_id):
+    order = session.query(cls).get(order_id)
+    if order:
+        session.delete(order)
+        session.commit()
+    else:
+        raise ValueError(f"Order with id {order_id} not found!")
