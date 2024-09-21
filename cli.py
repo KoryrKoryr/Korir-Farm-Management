@@ -6,20 +6,19 @@ from database import session
 
 
 
-@click.group()
-def cli():
-    pass
-
-#Welcome Message and then run CLI group
-@click.command()
-def welcome():
+@click.group(invoke_without_command=True)
+@click.pass_context
+def cli(ctx):
+    # Display welcome message 
     click.echo("*********************************")
     click.echo("Welcome to Korir's Farm!")
     click.echo("This is a simple farm management system.")
     click.echo("Manage your farm products, orders and customers.")
     click.echo("*********************************\n")
 
-    cli() # Invokes CLI group command
+    #Show help if no subcommand is passed
+    if ctx.invoked_subcommand is None:
+        click.echo(ctx.get_help())
 
 #Product Commands
 @cli.command()
@@ -61,4 +60,5 @@ def product_management():
 
 #Main entry point
 if __name__ == '__main__':
-    welcome()
+    cli()
+    
