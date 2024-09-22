@@ -1,5 +1,5 @@
 # Import necessary modules from SQLAlchemy
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float
 
 # Import the Base class from the database module
 from database import Base, session
@@ -13,11 +13,12 @@ class Product(Base):
     id = Column(Integer, primary_key=True)  # Unique identifier for each product
     name = Column(String, nullable=False, unique=True)  # Name of the product
     stock = Column(Integer, default=0)  # Stock, defaults to 0 if not provided
+    price = Column(Float, nullable=False)  # Price of the product
 
     # Create a new farm product with the given name and stock
     @classmethod
-    def create(cls, name, stock):
-        product = cls(name=name, stock=stock)
+    def create(cls, name, stock, price):
+        product = cls(name=name, stock=stock, price=price
         session.add(product)
         session.commit()
         return product
