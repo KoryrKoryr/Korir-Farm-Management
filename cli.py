@@ -36,8 +36,9 @@ def product_management():
         if choice == 1:
             name = click.prompt("Enter product name")
             stock = click.prompt("Enter initial stock", type=int)
-            Product.create(name, stock)
-            click.echo(f"Product {name} created successfully with {stock} units of stock!")
+            price = click.prompt("Enter product price", type=float)
+            Product.create(name, stock, price)
+            click.echo(f"Product {name} created successfully with {stock} units of stock costing Ksh.{price: .2f} per unit!")
         elif choice == 2:
             product_id = click.prompt("Enter product ID to delete", type=int)
             try:
@@ -49,7 +50,7 @@ def product_management():
             products = Product.get_all()
             click.echo("\nAll Products:")
             for product in products:
-                click.echo(f"ID: {product.id}, Name: {product.name}, Stock: {product.stock}")
+                click.echo(f"ID: {product.id}, Name: {product.name}, Stock: {product.stock}, Price: Ksh.{product.price:.2f}")
         elif choice == 4:
             product_id = click.prompt("Enter product ID to update", type=int)
             quantity = click.prompt("Enter quantity to add to stock", type=int)
