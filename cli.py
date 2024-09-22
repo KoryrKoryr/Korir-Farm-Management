@@ -50,7 +50,7 @@ def product_management():
             products = Product.get_all()
             click.echo("\nAll Products:")
             for product in products:
-                click.echo(f"ID: {product.id}, Name: {product.name}, Stock: {product.stock}, Price: Ksh.{product.price:.2f}")
+                click.echo(f"ID: {product.id}, Name: {product.name}, Stock: {product.stock}, Price: Ksh.{product.price:.2f}/unit of stock")
         elif choice == 4:
             product_id = click.prompt("Enter product ID to update", type=int)
             quantity = click.prompt("Enter quantity to add to stock", type=int)
