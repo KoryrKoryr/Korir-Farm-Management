@@ -18,7 +18,7 @@ class Product(Base):
     # Create a new farm product with the given name and stock
     @classmethod
     def create(cls, name, stock, price):
-        product = cls(name=name, stock=stock, price=price
+        product = cls(name=name, stock=stock, price=price)
         session.add(product)
         session.commit()
         return product
