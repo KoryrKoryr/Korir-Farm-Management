@@ -55,3 +55,25 @@ This is a command line interface application for managing your farm products, or
 ## Database Setup
 
 This project uses SQLite for the database. You need to set up the database by running Alembic migrations.
+
+After setting up the project, you must apply migrations to set up the database schema. Do this by running the following command:
+
+- `alembic upgrade head`
+
+## Available CLI Commands
+
+**General Commands:**
+
+- `python cli.py`: Displays a welcome message and a list of available commands.
+
+**Product Management Commands:**
+
+- `python cli.py product-management.py`: Manage farm products including adding, updating, displaying and deleting products.
+
+**Customer Management Commands:**
+
+- `python cli.py customer-management.py`: Manage customers including adding, displaying and deleting customers.
+
+## **Order Management Commands:**
+
+- `python cli.py order-management.py`: Manage orders including placing orders, displaying all orders, calculating order prices, displaying orders by customer and canceling orders.
