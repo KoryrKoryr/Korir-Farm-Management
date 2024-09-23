@@ -31,3 +31,27 @@ This is a command line interface application for managing your farm products, or
 - **SQLAlchemy:** ORM (Object Relational Mapping) to interact with database.
 - **Alembic:** For managing database migration.
 - **Click:** For building command line interface.
+
+## Setup and Installation
+
+1. Clone the repository from GitHub.
+
+   - `git clone https://github.com/KoryrKoryr/Korir-Farm-Management.git'
+   - `cd Korir-Farm-Management`
+
+2. Set up the virtual environment and install dependencies.
+   The project uses `Pipenv` to manage the dependencies and the virtual environment. Install Pipenv if it's not already installed:
+
+   - `pip install pipenv`
+
+   Install the project dependencies:
+
+   - `pipenv install`
+
+3. Activate the virtual environment:
+
+   - `pipenv shell`
+
+## Database Setup
+
+This project uses SQLite for the database. You need to set up the database by running Alembic migrations.
