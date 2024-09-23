@@ -3,7 +3,7 @@ from models.product import Product
 from models.customer import Customer
 from models.order import Order
 from database import session
-from helpers import validate_product_name, calculate_order_price
+from helpers import validate_product_name, calculate_order_price, update_product_price
 
 @click.group(invoke_without_command=True)
 @click.pass_context
@@ -29,9 +29,10 @@ def product_management():
         click.echo("2. Delete Existing Product")
         click.echo("3. Display All Products")
         click.echo("4. Update Product Stock")
-        click.echo("5. Back to Main Menu")
+        click.echo("5. Update Product Price")
+        click.echo("6. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice (1-5)", type=int)
+        choice = click.prompt("Enter your choice (1-6)", type=int)
 
         if choice == 1:
             # Tuple used to store collected product details
@@ -74,8 +75,15 @@ def product_management():
             stock_update = {"product_id": product_id, "quantity": quantity}
             Product.update_stock(stock_update["product_id"], stock_update["quantity"])
             click.echo(f"Stock updated for product with ID {stock_update['product_id']}!")
-
+        
         elif choice == 5:
+            # Update product price
+            product_id = click.prompt("Enter product ID to update", type=int)
+            new_price = click.prompt("Enter new price", type=float)
+            update_product_price(product_id, new_price)
+            click.echo(f"Price updated for product with ID {product_id}!")
+
+        elif choice == 6:
             # Exit product management
             click.echo("Exiting Product Management...")
             break
@@ -134,7 +142,7 @@ def order_management():
         click.echo("5. Calculate Price for an Order")
         click.echo("6. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice (1-5)", type=int)
+        choice = click.prompt("Enter your choice (1-6)", type=int)
 
         if choice == 1:
             # Place a new order. Dictionary to hold order details

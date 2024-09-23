@@ -27,3 +27,14 @@ def calculate_order_price(order_id):
     # Calculate total price: price of product * quantity ordered
     total_price = product.price * order.quantity
     return total_price
+
+def update_product_price(product_id, new_price):
+    # Get product from the database
+    product = session.query(Product).filter_by(id=product_id).first()
+
+    # Update the product's price
+    if product:
+        product.price = new_price
+        session.commit()
+    else:
+        print(f"Product with ID {product_id} does not exist.")    
