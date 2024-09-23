@@ -3,6 +3,7 @@ from models.product import Product
 from models.customer import Customer
 from models.order import Order
 from database import session
+from helpers import validate_product_name, calculate_order_price
 
 @click.group(invoke_without_command=True)
 @click.pass_context
@@ -39,9 +40,14 @@ def product_management():
                 click.prompt("Enter initial stock", type=int),
                 click.prompt("Enter product price", type=float)
             )
-            # Create new product
-            Product.create(*product_info)  # Unpack tuple directly
-            click.echo(f"Product {product_info[0]} created successfully with {product_info[1]} units of stock costing Ksh.{product_info[2]:.2f} per unit!")
+            # Validate that the product name is unique using the helper function
+            try:
+                validate_product_name(product_info[0])  # Validate product name
+                # Create new product
+                Product.create(*product_info)  # Unpack tuple directly
+                click.echo(f"Product {product_info[0]} created successfully with {product_info[1]} units of stock costing Ksh.{product_info[2]:.2f} per unit!")
+            except ValueError as e:
+                click.echo(f"Error: {e}")
 
         elif choice == 2:
             # Delete existing product
@@ -125,7 +131,8 @@ def order_management():
         click.echo("2. Cancel Existing Order")
         click.echo("3. Display All Orders")
         click.echo("4. Display Orders by Customer")
-        click.echo("5. Back to Main Menu")
+        click.echo("5. Calculate Price for an Order")
+        click.echo("6. Back to Main Menu")
 
         choice = click.prompt("Enter your choice (1-5)", type=int)
 
@@ -165,8 +172,18 @@ def order_management():
             orders = Order.get_by_customer(customer_id)
             for order in orders:
                 click.echo(f"Order ID: {order.id}, Product: {order.product.name}, Quantity: {order.quantity}")
-
+        
         elif choice == 5:
+            # Calculate price for an order
+            order_id = click.prompt("Enter order ID to calculate price", type=int)
+            try:
+                total_price = calculate_order_price(order_id)  # Use the helper function
+                click.echo(f"Total price for order ID {order_id} is Ksh.{total_price:.2f}")
+            except ValueError as e:
+                click.echo(f"Error: {e}")
+
+        
+        elif choice == 6:
             # Exit order management
             click.echo("Exiting Order Management...")
             break
