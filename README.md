@@ -68,12 +68,12 @@ After setting up the project, you must apply migrations to set up the database s
 
 **Product Management Commands:**
 
-- `python cli.py product-management.py`: Manage farm products including adding, updating, displaying and deleting products.
+- `python cli.py product-management.py`: Displays product management menu. Manage farm products including adding, updating, displaying and deleting products.
 
 **Customer Management Commands:**
 
-- `python cli.py customer-management.py`: Manage customers including adding, displaying and deleting customers.
+- `python cli.py customer-management.py`: Displays customer management menu. Manage customers including adding, displaying and deleting customers.
 
 ## **Order Management Commands:**
 
-- `python cli.py order-management.py`: Manage orders including placing orders, displaying all orders, calculating order prices, displaying orders by customer and canceling orders.
+- `python cli.py order-management.py`: Displays order management menu. Manage orders including placing orders, displaying all orders, calculating order prices, displaying orders by customer and canceling orders.
