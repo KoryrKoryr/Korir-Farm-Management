@@ -25,6 +25,7 @@ def seed_customers():
         Customer(name='Pipo Latta'),
         Customer(name='Lailah Chebet'),
         Customer(name='Ian Leonard'),
+        Customer(name='Kiki Miki'),
     ]
     session.bulk_save_objects(customers)
     session.commit()
@@ -36,8 +37,9 @@ def seed_orders():
     orders = [
         Order(product_id=1, customer_id=1, quantity=10),
         Order(product_id=2, customer_id=3, quantity=5),
-        Order(product_id=3, customer_id=2, quantity=12),
+        Order(product_id=3, customer_id=5, quantity=12),
         Order(product_id=4, customer_id=4, quantity=25),
+        Order(product_id=5, customer_id=2, quantity=17),
     ]
     session.bulk_save_objects(orders)
     session.commit()
