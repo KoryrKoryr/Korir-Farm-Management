@@ -1,8 +1,8 @@
-"""Initial migartion for products, customers and orders
+"""Create products, customers, and orders tables
 
-Revision ID: 32bd6c5949f8
-Revises: 
-Create Date: 2024-09-21 07:36:18.396199
+Revision ID: bef046a889ba
+Revises: a1db0155b7ac
+Create Date: 2024-09-23 19:30:04.545150
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '32bd6c5949f8'
-down_revision: Union[str, None] = None
+revision: str = 'bef046a889ba'
+down_revision: Union[str, None] = 'a1db0155b7ac'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -30,6 +30,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('stock', sa.Integer(), nullable=True),
+    sa.Column('price', sa.Float(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
