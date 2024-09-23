@@ -4,19 +4,17 @@ from models.customer import Customer
 from models.order import Order
 from database import session
 
-
-
 @click.group(invoke_without_command=True)
 @click.pass_context
 def cli(ctx):
-    # Display welcome message 
+    # Display welcome message
     click.echo("*********************************")
     click.echo("Welcome to Korir's Farm!")
     click.echo("This is a simple farm management system.")
     click.echo("Manage your farm products, orders and customers.")
     click.echo("*********************************\n")
 
-    #Show help if no subcommand is passed
+    # Show help if no subcommand is passed
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
 
@@ -24,6 +22,7 @@ def cli(ctx):
 @cli.command()
 def product_management():
     while True:
+        # Display product management menu
         click.echo("\nProduct Management Menu:")
         click.echo("1. Add a New Farm Product")
         click.echo("2. Delete Existing Product")
@@ -31,68 +30,96 @@ def product_management():
         click.echo("4. Update Product Stock")
         click.echo("5. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice (1-5) ", type=int)
+        choice = click.prompt("Enter your choice (1-5)", type=int)
 
         if choice == 1:
-            name = click.prompt("Enter product name")
-            stock = click.prompt("Enter initial stock", type=int)
-            price = click.prompt("Enter product price", type=float)
-            Product.create(name, stock, price)
-            click.echo(f"Product {name} created successfully with {stock} units of stock costing Ksh.{price: .2f} per unit!")
+            # Tuple used to store collected product details
+            product_info = (
+                click.prompt("Enter product name"),
+                click.prompt("Enter initial stock", type=int),
+                click.prompt("Enter product price", type=float)
+            )
+            # Create new product
+            Product.create(*product_info)  # Unpack tuple directly
+            click.echo(f"Product {product_info[0]} created successfully with {product_info[1]} units of stock costing Ksh.{product_info[2]:.2f} per unit!")
+
         elif choice == 2:
+            # Delete existing product
             product_id = click.prompt("Enter product ID to delete", type=int)
             try:
                 Product.delete(product_id)
                 click.echo(f"Product with ID {product_id} deleted successfully!")
             except ValueError as e:
                 click.echo(f"Error: {e}")
+
         elif choice == 3:
-            products = Product.get_all()
+            # Display all products
+            products = Product.get_all()  # This can be a list of product objects
+            product_list = [(p.id, p.name, p.stock, p.price) for p in products]  # Convert to list of tuples
             click.echo("\nAll Products:")
-            for product in products:
-                click.echo(f"ID: {product.id}, Name: {product.name}, Stock: {product.stock}, Price: Ksh.{product.price:.2f}/unit of stock")
+            for product in product_list:
+                click.echo(f"ID: {product[0]}, Name: {product[1]}, Stock: {product[2]}, Price: Ksh.{product[3]:.2f}/unit of stock")
+
         elif choice == 4:
+            # Update product stock
             product_id = click.prompt("Enter product ID to update", type=int)
             quantity = click.prompt("Enter quantity to add to stock", type=int)
-            Product.update_stock(product_id, quantity)
-            click.echo(f"Stock updated for product with ID {product_id}!")
+            # Dictionary used to store stock updates
+            stock_update = {"product_id": product_id, "quantity": quantity}
+            Product.update_stock(stock_update["product_id"], stock_update["quantity"])
+            click.echo(f"Stock updated for product with ID {stock_update['product_id']}!")
+
         elif choice == 5:
+            # Exit product management
+            click.echo("Exiting Product Management...")
             break
 
 # Customer Management Commands
 @cli.command()
 def customer_management():
     while True:
+        # Display customer management menu
         click.echo("\nCustomer Management Menu:")
         click.echo("1. Add a New Customer")
         click.echo("2. Delete Existing Customer")
         click.echo("3. Display All Customers")
         click.echo("4. Back to Main Menu")
 
-        choice = click.prompt("Enter your choice (1-4) ", type=int)
+        choice = click.prompt("Enter your choice (1-4)", type=int)
 
         if choice == 1:
+            # Add a new customer
             name = click.prompt("Enter customer name")
             Customer.create(name)
             click.echo(f"Customer {name} created successfully!")
+
         elif choice == 2:
+            # Delete an existing customer
             customer_id = click.prompt("Enter customer ID to delete", type=int)
             try:
                 Customer.delete(customer_id)
                 click.echo(f"Customer with ID {customer_id} deleted successfully!")
             except ValueError as e:
                 click.echo(f"Error: {e}")
+
         elif choice == 3:
-            customers = Customer.get_all()
+            # Display all customers
+            customers = Customer.get_all()  # Assuming this returns a list of customer objects
+            customer_list = [{"id": c.id, "name": c.name} for c in customers]  # Convert to list of dictionaries
             click.echo("\nAll Customers:")
-            for customer in customers:
-                click.echo(f"ID: {customer.id}, Name: {customer.name}")
+            for customer in customer_list:
+                click.echo(f"ID: {customer['id']}, Name: {customer['name']}")
+
         elif choice == 4:
+            # Exit customer management
+            click.echo("Exiting Customer Management...")
             break
+
 # Order Management Commands
 @cli.command()
 def order_management():
     while True:
+        # Display order management menu
         click.echo("\nOrder Management Menu:")
         click.echo("1. Place New Order")
         click.echo("2. Cancel Existing Order")
@@ -103,35 +130,47 @@ def order_management():
         choice = click.prompt("Enter your choice (1-5)", type=int)
 
         if choice == 1:
-            customer_id = click.prompt("Enter customer ID", type=int)
-            product_id = click.prompt("Enter product ID", type=int)
-            quantity = click.prompt("Enter quantity", type=int)
+            # Place a new order. Dictionary to hold order details
+            order_info = {
+                "customer_id": click.prompt("Enter customer ID", type=int),
+                "product_id": click.prompt("Enter product ID", type=int),
+                "quantity": click.prompt("Enter quantity", type=int)
+            }
             try:
-                Order.create(product_id, customer_id, quantity)
-                click.echo(f"Order placed successfully for product ID {product_id}!")
+                Order.create(order_info["product_id"], order_info["customer_id"], order_info["quantity"])
+                click.echo(f"Order placed successfully for product ID {order_info['product_id']}!")
             except ValueError as e:
                 click.echo(f"Error: {e}")
+
         elif choice == 2:
+            # Cancel an existing order
             order_id = click.prompt("Enter order ID to cancel", type=int)
             try:
                 Order.delete(order_id)
                 click.echo(f"Order with ID {order_id} cancelled successfully!")
             except ValueError as e:
                 click.echo(f"Error: {e}")
+
         elif choice == 3:
-            orders = Order.get_all()
+            # Display all orders
+            orders = Order.get_all()  # List of order objects
+            order_list = [(o.id, o.product_id, o.customer_id, o.quantity) for o in orders]  # Convert to list of tuples
             click.echo("\nAll Orders:")
-            for order in orders:
-                click.echo(f"ID: {order.id}, Product ID: {order.product_id}, Customer ID: {order.customer_id}, Quantity: {order.quantity}")
+            for order in order_list:
+                click.echo(f"ID: {order[0]}, Product ID: {order[1]}, Customer ID: {order[2]}, Quantity: {order[3]}")
+
         elif choice == 4:
+            # Display orders by customer
             customer_id = click.prompt("Enter customer ID", type=int)
             orders = Order.get_by_customer(customer_id)
             for order in orders:
-                click.echo(f"order ID: {order.id}, Product: {order.product.name}, Quantity: {order.quantity}")
+                click.echo(f"Order ID: {order.id}, Product: {order.product.name}, Quantity: {order.quantity}")
+
         elif choice == 5:
+            # Exit order management
+            click.echo("Exiting Order Management...")
             break
 
-#Main entry point
+# Main entry point
 if __name__ == '__main__':
     cli()
-    
