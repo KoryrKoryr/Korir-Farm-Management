@@ -138,7 +138,7 @@ Product Management Menu:
 Enter your choice (1-6):
 ```
 
-- `python cli.py order-management` to run the order management command.Expect the following output:
+- `python cli.py order-management` to run the order management command. Expect the following output:
 
 ```
 *********************************
