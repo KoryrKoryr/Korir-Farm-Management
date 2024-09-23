@@ -77,3 +77,101 @@ After setting up the project, you must apply migrations to set up the database s
 ## **Order Management Commands:**
 
 - `python cli.py order-management.py`: Displays order management menu. Manage orders including placing orders, displaying all orders, calculating order prices, displaying orders by customer and canceling orders.
+
+## Usage
+
+**Seed Data:**
+
+- In the `seed_data.py` file, you can seed data to populate the tables. You can use the `python seed_data.py` command to seed data for products, customers and orders. Check the database to confirm whether the data has been seeded successfully.
+
+- Expect the following output when `python seed_data.py` is executed:
+
+```
+Seeded 7 products.
+Seeded 5 customers.
+Seeded 5 orders.
+```
+
+**Run CLI:**
+
+- Use the `python cli.py` command to run the CLI. This will display the following welcome message and a list of available commands:
+
+```
+
+*********************************
+Welcome to Korir's Farm!
+This is a simple farm management system.
+Manage your farm products, orders and customers.
+*********************************
+
+Usage: cli.py [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  customer-management
+  order-management
+  product-management
+
+```
+
+- Use the `python cli.py COMMAND` command to run a specific command. For example:
+
+  - `python cli.py product-management` to run the product management command. Expect the following output:
+
+```
+*********************************
+Welcome to Korir's Farm!
+This is a simple farm management system.
+Manage your farm products, orders and customers.
+*********************************
+
+
+Product Management Menu:
+1. Add a New Farm Product
+2. Delete Existing Product
+3. Display All Products
+4. Update Product Stock
+5. Update Product Price
+6. Back to Main Menu
+Enter your choice (1-6):
+```
+
+- `python cli.py order-management` to run the order management command.Expect the following output:
+
+```
+*********************************
+Welcome to Korir's Farm!
+This is a simple farm management system.
+Manage your farm products, orders and customers.
+*********************************
+
+
+Order Management Menu:
+1. Place New Order
+2. Cancel Existing Order
+3. Display All Orders
+4. Display Orders by Customer
+5. Calculate Price for an Order
+6. Back to Main Menu
+Enter your choice (1-6):
+```
+
+- `python cli.py customer-management` to run the customer management command. Expect the following output:
+
+```
+*********************************
+Welcome to Korir's Farm!
+This is a simple farm management system.
+Manage your farm products, orders and customers.
+*********************************
+
+
+Customer Management Menu:
+1. Add a New Customer
+2. Delete Existing Customer
+3. Display All Customers
+4. Back to Main Menu
+Enter your choice (1-4):
+```
